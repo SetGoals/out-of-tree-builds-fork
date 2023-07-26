@@ -70,3 +70,22 @@ jobs:
         with:
           files: |
             **/*.xml
+            
+      - name: Set Variable
+        id: set_variable
+        run: echo "my_variable=10" >> $GITHUB_ENV # Replace '10' with the actual value from your workflow
+
+      - name: Generate Badge URL
+        id: generate_badge
+        run: |
+          my_variable=${{ steps.set_variable.outputs.my_variable }}
+          badge_url=$(curl -s "https://img.shields.io/badge/YOUR_BADGE_LABEL-$my_variable-blue") # Replace 'YOUR_BADGE_LABEL' with the desired label for your badge
+          echo "badge_url=$badge_url" >> $GITHUB_ENV
+
+      - name: Print Badge URL
+        run: echo "Badge URL:${{ steps.generate_badge.outputs.badge_url }}"
+
+      - name: Replace Badge URL in Markdown
+        run: |
+          badge_url="${{ steps.generate_badge.outputs.badge_url }}"
+          sed -i "s|badge_url_from_workflow|$badge_url|g" README.md
