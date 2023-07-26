@@ -64,12 +64,13 @@ jobs:
           echo "badge_url=$badge_url" >> $GITHUB_ENV
 
       - name: Print Badge URL
-        run: echo "Badge URL:${{ steps.generate_badge.outputs.badge_url }}"
+        run: echo "Badge URL: ${{ steps.generate_badge.outputs.badge_url }}"
 
       - name: Replace Badge URL in Markdown
         run: |
           badge_url="${{ steps.generate_badge.outputs.badge_url }}"
-          sed -i "s|badge_url_from_workflow|$badge_url|g" README.md
+          envsubst < README.md > README.md.new
+          mv README.md.new README.md
 
 
       - name: build tests
