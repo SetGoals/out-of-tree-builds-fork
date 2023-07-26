@@ -35,6 +35,7 @@ jobs:
         run: |
           # List the names of the modified files in the pull request - open a pull request
           git --version
+          pwd
           files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
           echo "FILES=${files_edited}" >> $GITHUB_ENV
           
