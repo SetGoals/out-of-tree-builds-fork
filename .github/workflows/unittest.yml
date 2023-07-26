@@ -68,11 +68,14 @@ jobs:
           
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "Matt Walsh"
-          git config --global user.email "mysticrecords@hotmail.com"
+          git config --global user.name "Your Name"
+          git config --global user.email "your.email@example.com"
           git add README.md
           git commit -m "Update README.md with variable value"
-          git push origin HEAD:out-of-tree-builds-fork
+          git push https://github.com/SetGoals/out-of-tree-builds-fork.git HEAD:main
+          # Replace the URL with your forked repository URL
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: build tests
         run: |
