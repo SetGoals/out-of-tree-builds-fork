@@ -1,3 +1,3 @@
-![Unit Tests](badge_url_from_workflow)
-
 # out-of-tree-builds
+
+Welcome to my project! This project is about {{MY_VARIABLE}}.
