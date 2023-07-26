@@ -60,8 +60,9 @@ jobs:
 
       - name: Update README.md
         run: |
-          # Replace README.md with the actual file name and replace the placeholder with the variable value
-          sed -i "s|{{MY_VARIABLE}}|${{ env.MY_VARIABLE }}|g" README.md
+          # Replace README.md with the actual file name
+          envsubst < README.md > README.md.new
+          mv README.md.new README.md
 
 
       - name: build tests
