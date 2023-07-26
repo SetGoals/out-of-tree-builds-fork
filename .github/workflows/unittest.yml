@@ -64,7 +64,7 @@ jobs:
           echo "badge_url=$badge_url" >> $GITHUB_ENV
 
       - name: Print Badge URL
-        run: echo "Badge URL: ${{ steps.generate_badge.outputs.badge_url }}"
+        run: echo "Badge URL:${{ steps.generate_badge.outputs.badge_url }}"
 
       - name: Replace Badge URL in Markdown
         run: |
