@@ -61,9 +61,10 @@ jobs:
       - name: Update README.md
         run: |
           # Replace README.md with the actual file name
-          envsubst < README.md > README.md.new
+          placeholder="{{MY_VARIABLE}}"
+          value="${{ env.MY_VARIABLE }}"
+          awk -v ph="$placeholder" -v val="$value" '{gsub(ph, val)}1' README.md > README.md.new
           mv README.md.new README.md
-
 
       - name: build tests
         run: |
