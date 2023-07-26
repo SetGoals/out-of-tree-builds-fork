@@ -1,8 +1,10 @@
 name: unit tests
 
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+
 
 # adding permissions to workflow to allow writing to status
 permissions:
@@ -10,6 +12,7 @@ permissions:
   issues: read
   checks: write
   pull-requests: write
+
 
 jobs:
   build:
@@ -21,10 +24,12 @@ jobs:
         with:
          fetch-depth: 2
 
+
       - name: Install cmake
         run: |
           brew install cmake
           cmake --version
+
 
       - name: List Modified Files
         run: |
@@ -32,6 +37,7 @@ jobs:
           git --version
           files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
           echo "FILES=${files_edited}" >> $GITHUB_ENV
+          
           
       - name: print files
         run: |
@@ -43,6 +49,7 @@ jobs:
           for f in ${FILES_TO_READ[@]}; do
            echo "$f"
           done
+
 
       - name: build tests
         run: |
