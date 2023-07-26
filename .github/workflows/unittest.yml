@@ -65,6 +65,14 @@ jobs:
           value="${{ env.MY_VARIABLE }}"
           awk -v ph="$placeholder" -v val="$value" '{gsub(ph, val)}1' README.md > README.md.new
           mv README.md.new README.md
+          
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Matt Walsh"
+          git config --global user.email "mysticrecords@hotmail.com"
+          git add README.md
+          git commit -m "Update README.md with variable value"
+          git push
 
       - name: build tests
         run: |
