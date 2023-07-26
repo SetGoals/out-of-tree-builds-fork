@@ -55,9 +55,3 @@ BOOST_AUTO_TEST_CASE(blah_blah_blah)
     int a = 5;
     BOOST_TEST(a == 5);
 }
-
-BOOST_AUTO_TEST_CASE(blah_blah) 
-{
-    int a = 0;
-    BOOST_TEST(a == 5);
-}
