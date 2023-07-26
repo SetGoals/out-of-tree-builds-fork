@@ -4,6 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+# adding permissions to workflow to allow writing to status
 permissions:
   contents: read
   issues: read
