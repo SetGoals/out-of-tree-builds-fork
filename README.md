@@ -1,7 +1,3 @@
-# out-of-tree-builds
-
-Welcome to my project! This project is about {{MY_VARIABLE}}.
-
 import xml.etree.ElementTree as ET
 
 def sanitize_xml(input_file, output_file):
@@ -26,25 +22,24 @@ def sanitize_xml(input_file, output_file):
             if current_errors is None:
                 current_errors = ET.SubElement(sanitized_results, 'errors')
             for error in errors.findall('error'):
-                error_text = error.text.strip()
-                if error_text not in encountered_nodes:
-                    new_error = ET.Element('error')
-                    new_error.text = error_text
+                error_attrib = tuple(error.attrib.items())
+                if error_attrib not in encountered_nodes:
+                    new_error = ET.Element('error', **error.attrib)
+                    new_error.text = error.text.strip()
                     for child in error:
                         if child.tag == 'location':
-                            new_location = ET.Element('location')
-                            new_location.text = child.text
+                            new_location = ET.Element('location', **child.attrib)
+                            new_location.text = child.text.strip()
                             new_error.append(new_location)
                         else:
-                            new_error.append(child)
+                            new_child = ET.Element(child.tag, **child.attrib)
+                            new_child.text = child.text.strip()
+                            new_error.append(new_child)
                     current_errors.append(new_error)
-                    encountered_nodes.add(error_text)
+                    encountered_nodes.add(error_attrib)
 
     sanitized_tree = ET.ElementTree(sanitized_results)
     sanitized_tree.write(output_file, xml_declaration=True, encoding='utf-8')
-
-input_filename = '/Users/mattwalsh/Downloads/TestXMLsanitation/input_file.xml'
-output_filename = '/Users/mattwalsh/Downloads/TestXMLsanitation/input_file.xml'
 
 sanitize_xml(input_filename, output_filename)
 
