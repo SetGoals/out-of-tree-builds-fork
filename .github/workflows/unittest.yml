@@ -65,17 +65,16 @@ jobs:
           value="${{ env.MY_VARIABLE }}"
           awk -v ph="$placeholder" -v val="$value" '{gsub(ph, val)}1' README.md > README.md.new
           mv README.md.new README.md
-          
-      - name: Commit and Push Changes
+
+    # Runs a set of commands using the runners shell
+      - name: Update README.md
         run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "your.email@example.com"
-          git add README.md
-          git commit -m "Update README.md with variable value"
-          git push https://github.com/SetGoals/out-of-tree-builds-fork.git HEAD:main
-          # Replace the URL with your forked repository URL
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          sed -i 's/<reponame>/'${{ github.event.repository.name }}'/' README.md
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git commit -am "Automated report"
+          git push
+    
 
       - name: build tests
         run: |
