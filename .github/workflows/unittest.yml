@@ -66,15 +66,20 @@ jobs:
       #    awk -v ph="$placeholder" -v val="$value" '{gsub(ph, val)}1' README.md > README.md.new
       #    mv README.md.new README.md
 
+      - name: Set up Dependabot
+        uses: dependabot/dependabot-actions/setup@v2
+        with:
+          github_token: ${{ secrets.DEPENDABOT_TOKEN }}
+
     # Runs a set of commands using the runners shell
       - name: Update README.md
         run: |
           sed "s/<TEST_VALUE>/${{ github.event.repository.name }}/" README.md > README.tmp
           mv README.tmp README.md
-          git config user.email "mysticrecords@hotmail.com"
-          git config user.name "Matt Walsh"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
           git commit -am "Update README.md"
-          git remote set-url origin "https://mysticrecords:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/SetGoals/out-of-tree-builds-fork.git"
+          
           git push origin HEAD:${{ github.ref }}
     
 
