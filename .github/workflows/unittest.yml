@@ -68,12 +68,13 @@ jobs:
     # Runs a set of commands using the runners shell
       - name: Update README.md
         run: |
-          # Replace <TARGET_VALUE> with the actual target value
-          new_value="Updated Value: $(date -u)"
-          sed -i "s/<TARGET_VALUE>/$new_value/" README.md
+          new_value="NEW_VALUE"
+          sed -E -i '' "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)[0-9]{1,3}/\1$new_value/" README.md > README.tmp
+          mv README.tmp README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git commit -am "Update target value"
+          git status  # Print status for debugging
+          git commit -a -m "Update README.md"
           git push
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
