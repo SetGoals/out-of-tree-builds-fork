@@ -68,12 +68,12 @@ jobs:
     # Runs a set of commands using the runners shell
       - name: Update README.md
         run: |
-          sed "s/<TEST_VALUE>/ABCDEFG/" README.md > README.tmp
-          mv README.tmp README.md
+          # Replace <TARGET_VALUE> with the actual target value
+          new_value="Updated Value: $(date -u)"
+          sed -i "s/<TARGET_VALUE>/$new_value/" README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
-          git status  # Print status for debugging
-          git commit -a -m "Update README.md"
+          git commit -am "Update target value"
           git push
         env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
