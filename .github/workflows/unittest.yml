@@ -69,7 +69,7 @@ jobs:
     # Runs a set of commands using the runners shell
       - name: Update README.md
         run: |
-          new_value="22"
+          new_value="123"
           # Replace any number between 0 and 999
           sed -i '' -E "s/CPPCheck-[0-9]{1,3}-blue/CPPCheck-${new_value}-blue/g" README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
