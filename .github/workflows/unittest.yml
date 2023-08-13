@@ -70,8 +70,8 @@ jobs:
         run: |
           sed "s/<TEST_VALUE>/${{ github.event.repository.name }}/" README.md > README.tmp
           mv README.tmp README.md
-          git config user.email "mysticrecords@hotmail.com"
-          git config user.name "Matt Walsh"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
           git status  # Print status for debugging
           git commit -a -m "Update README.md"
           git push
