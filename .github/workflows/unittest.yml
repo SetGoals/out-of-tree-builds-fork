@@ -69,10 +69,8 @@ jobs:
       - name: Update README.md
         run: |
           new_value="22"
-          perl -pe "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)[0-9]+/\1$new_value/" README.md > README.tmp
+          sed -E -i '' "s|!\[Workflow Status\]\(https://img.shields.io/badge/CPPCheck-[0-9]+-blue\)|![Workflow Status](https://img.shields.io/badge/CPPCheck-$new_value-blue)|" README.md > README.tmp
           mv README.tmp README.md
-          # sed -E -i '' "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/\1$new_value/" README.md > README.tmp
-          # mv README.tmp README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git status  # Print status for debugging
