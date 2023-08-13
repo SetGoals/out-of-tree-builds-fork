@@ -1,1 +1,2 @@
-https://img.shields.io/badge/any_text-you_like-blue
+![Workflow Status](https://img.shields.io/badge/CPPCheck-0-blue)
+
