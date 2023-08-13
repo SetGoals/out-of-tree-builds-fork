@@ -11,8 +11,6 @@ permissions:
   contents: read
   checks: write
   pull-requests: write
-  push: write
-
 
 jobs:
   build:
