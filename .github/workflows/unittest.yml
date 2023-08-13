@@ -76,6 +76,7 @@ jobs:
           # git config user.name "Matt Walsh"
           git status  # Print status for debugging
           git commit -a -m "Update README.md"
+          git push
         env:
           PAT: ${{ secrets.PAT_TOKEN }}
 
