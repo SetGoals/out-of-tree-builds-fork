@@ -69,7 +69,7 @@ jobs:
       - name: Update README.md
         run: |
           new_value="22"
-          awk -v new_value="$new_value" '{gsub(/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/, "\\1" new_value)}1' README.md > README.tmp
+          awk -v new_value="$new_value" '{sub(/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)[0-9]+/, "\\1" new_value)}1' README.md > README.tmp
           mv README.tmp README.md
           # sed -E -i '' "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/\1$new_value/" README.md > README.tmp
           # mv README.tmp README.md
