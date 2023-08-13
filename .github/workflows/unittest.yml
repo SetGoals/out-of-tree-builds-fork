@@ -69,7 +69,7 @@ jobs:
       - name: Update README.md
         run: |
           new_value="22"
-          sed -i "s/![Workflow Status](https://img.shields.io/badge/CPPCheck-.*-blue)/![Workflow Status](https://img.shields.io/badge/CPPCheck-$new_value-blue)/g" README.md > README.tmp
+          sed -E -i '' "s/CPPCheck-[0-9]+-/CPPCheck-$new_value-/g" README.md > README.tmp
           mv README.tmp README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
