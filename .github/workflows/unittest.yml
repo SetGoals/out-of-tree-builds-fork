@@ -72,6 +72,7 @@ jobs:
           mv README.tmp README.md
           git config user.email "mysticrecords@hotmail.com"
           git config user.name "Matt Walsh"
+          git status  # Print status for debugging
           git commit -am "Update README.md"
         env:
           PAT: ${{ secrets.PAT_TOKEN }}
