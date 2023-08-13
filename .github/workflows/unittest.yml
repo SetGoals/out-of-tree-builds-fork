@@ -69,8 +69,10 @@ jobs:
       - name: Update README.md
         run: |
           new_value="22"
-          sed -E -i '' "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/\1$new_value/" README.md > README.tmp
+          awk -v new_value="$new_value" '{gsub(/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/, "\\1" new_value)}1' README.md > README.tmp
           mv README.tmp README.md
+          # sed -E -i '' "s/(https:\/\/img\.shields\.io\/badge\/CPPCheck-)([0-9]+)/\1$new_value/" README.md > README.tmp
+          # mv README.tmp README.md
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git status  # Print status for debugging
