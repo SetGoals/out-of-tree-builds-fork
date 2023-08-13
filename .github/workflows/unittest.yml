@@ -11,6 +11,7 @@ permissions:
   contents: read
   checks: write
   pull-requests: write
+  push: write
 
 
 jobs:
@@ -21,42 +22,41 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3.5.3
         with:
-         fetch-depth: 2
+         fetch-depth: 0
 
 
-      - name: Install cmake
-        run: |
-          brew install cmake
-          cmake --version
+      #- name: Install cmake
+      #  run: |
+      #    brew install cmake
+      #    cmake --version
 
 
-      - name: List Modified Files
-        run: |
-          # List the names of the modified files in the pull request - open a pull request
-          set -x
-          git --version
-          files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.sha }})
-          # Replace newline characters with spaces
-          files_edited="${files_edited//$'\n'/ }"
-          echo "FILES=${files_edited}" >> $GITHUB_ENV
+      #- name: List Modified Files
+      #  run: |
+      #    # List the names of the modified files in the pull request - open a pull request
+      #    set -x
+      #    git --version
+      #    files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.sha }})
+      #    # Replace newline characters with spaces
+      #    files_edited="${files_edited//$'\n'/ }"
+      #    echo "FILES=${files_edited}" >> $GITHUB_ENV
           
-      # aimless comment to test
-      - name: print files
-        run: |
-          IFS=' ' read -ra FILES_TO_READ <<< "$FILES"
+      #- name: print files
+      #  run: |
+      #    IFS=' ' read -ra FILES_TO_READ <<< "$FILES"
+      #   
+      #    echo "$FILES"
+      #    echo "--------------------------"
+      #    
+      #    for f in ${FILES_TO_READ[@]}; do
+      #     echo "$f"
+      #    done
           
-          echo "$FILES"
-          echo "--------------------------"
-          
-          for f in ${FILES_TO_READ[@]}; do
-           echo "$f"
-          done
-          
-      - name: Set Variable
-        run: echo "MY_VARIABLE=Hello, World!" >> $GITHUB_ENV
+      #- name: Set Variable
+      #  run: echo "MY_VARIABLE=Hello, World!" >> $GITHUB_ENV
 
-      - name: Display Variable
-        run: echo "Variable value:${{ env.MY_VARIABLE }}"
+      #- name: Display Variable
+      #  run: echo "Variable value:${{ env.MY_VARIABLE }}"
 
       # - name: Update README.md
       #   run: |
@@ -74,28 +74,22 @@ jobs:
           git config user.email "mysticrecords@hotmail.com"
           git config user.name "Matt Walsh"
           git commit -am "Update README.md"
+        env:
+          PAT: ${{ secrets.PAT_TOKEN }}
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: main
-    
-
-      - name: build tests
-        run: |
-
-         cd projects
-         cmake -B build -S .
-         cmake --build build
-         pwd
-         cd build
-         ctest -C checkin --output-junit unittest.xml
-         ls -la
+      #- name: build tests
+      #  run: |
+      #   cd projects
+      #   cmake -B build -S .
+      #   cmake --build build
+      #   pwd
+      #   cd build
+      #   ctest -C checkin --output-junit unittest.xml
+      #   ls -la
           
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: always()
-        with:
-          files: |
-            **/*.xml
+      #- name: Publish Test Results
+      #  uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      #  if: always()
+      #  with:
+      #    files: |
+      #      **/*.xml
