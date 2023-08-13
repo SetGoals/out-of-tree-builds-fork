@@ -9,7 +9,7 @@ on:
 
 # adding permissions to workflow to allow writing to status
 permissions:
-  contents: read
+  contents: write
   checks: write
   pull-requests: write
 
