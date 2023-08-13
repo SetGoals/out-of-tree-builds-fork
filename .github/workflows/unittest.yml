@@ -1,12 +1,15 @@
 name: unit tests
 
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
+
+# adding permissions to workflow to allow writing to status
 permissions:
   contents: read
-  issues: read
   checks: write
   pull-requests: write
 
@@ -18,45 +21,74 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3.5.3
         with:
-         fetch-depth: 2
+         fetch-depth: 0
 
-      - name: Install cmake
-        run: |
-          brew install cmake
-          cmake --version
 
-      - name: List Modified Files
-        run: |
-          # List the names of the modified files in the pull request - open a pull request
-          git --version
-          files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
-          echo "FILES=${files_edited}" >> $GITHUB_ENV
-          
-      - name: print files
-        run: |
-          IFS=' ' read -ra FILES_TO_READ <<< "$FILES"
-          
-          echo "$FILES"
-          echo "--------------------------"
-          
-          for f in ${FILES_TO_READ[@]}; do
-           echo "$f"
-          done
+      #- name: Install cmake
+      #  run: |
+      #    brew install cmake
+      #    cmake --version
 
-      - name: build tests
-        run: |
 
-         cd projects
-         cmake -B build -S .
-         cmake --build build
-         pwd
-         cd build
-         ctest -C checkin --output-junit unittest.xml
-         ls -la
+      #- name: List Modified Files
+      #  run: |
+      #    # List the names of the modified files in the pull request - open a pull request
+      #    set -x
+      #    git --version
+      #    files_edited=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.sha }})
+      #    # Replace newline characters with spaces
+      #    files_edited="${files_edited//$'\n'/ }"
+      #    echo "FILES=${files_edited}" >> $GITHUB_ENV
           
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: always()
-        with:
-          files: |
-            **/*.xml
+      #- name: print files
+      #  run: |
+      #    IFS=' ' read -ra FILES_TO_READ <<< "$FILES"
+      #   
+      #    echo "$FILES"
+      #    echo "--------------------------"
+      #    
+      #    for f in ${FILES_TO_READ[@]}; do
+      #     echo "$f"
+      #    done
+          
+      #- name: Set Variable
+      #  run: echo "MY_VARIABLE=Hello, World!" >> $GITHUB_ENV
+
+      #- name: Display Variable
+      #  run: echo "Variable value:${{ env.MY_VARIABLE }}"
+
+      # - name: Update README.md
+      #   run: |
+          # Replace README.md with the actual file name
+      #    placeholder="{{MY_VARIABLE}}"
+      #    value="${{ env.MY_VARIABLE }}"
+      #    awk -v ph="$placeholder" -v val="$value" '{gsub(ph, val)}1' README.md > README.md.new
+      #    mv README.md.new README.md
+
+    # Runs a set of commands using the runners shell
+      - name: Update README.md
+        run: |
+          sed "s/<TEST_VALUE>/${{ github.event.repository.name }}/" README.md > README.tmp
+          mv README.tmp README.md
+          git config user.email "mysticrecords@hotmail.com"
+          git config user.name "Matt Walsh"
+          git commit -am "Update README.md"
+        env:
+          PAT: ${{ secrets.PAT_TOKEN }}
+
+      #- name: build tests
+      #  run: |
+      #   cd projects
+      #   cmake -B build -S .
+      #   cmake --build build
+      #   pwd
+      #   cd build
+      #   ctest -C checkin --output-junit unittest.xml
+      #   ls -la
+          
+      #- name: Publish Test Results
+      #  uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      #  if: always()
+      #  with:
+      #    files: |
+      #      **/*.xml
