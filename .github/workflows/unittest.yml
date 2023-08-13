@@ -4,6 +4,7 @@ name: unit tests
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 
 # adding permissions to workflow to allow writing to status
