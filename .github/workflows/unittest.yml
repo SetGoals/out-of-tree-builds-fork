@@ -78,7 +78,7 @@ jobs:
           git commit -a -m "Update README.md"
           git push
         env:
-          PAT: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       #- name: build tests
       #  run: |
