@@ -1,0 +1,61 @@
+name: Update CPPCheck Badge in README
+
+on:
+  push:
+    branches:
+      - main # or the branch of your choice
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Git
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Generate CPPCheck Badge
+      id: badge
+      run: |
+        # Define your custom message here
+        CUSTOM_MESSAGE="New Message Here"
+
+        # Encode the custom message for use in the badge URL
+        ENCODED_MESSAGE=$(echo "$CUSTOM_MESSAGE" | jq -s -R -r @uri)
+
+        # Construct the badge URL with the encoded message
+        BADGE_URL="https://img.shields.io/badge/CPPCheck-$ENCODED_MESSAGE-blue"
+
+        # Output the badge URL as an action output
+        echo "::set-output name=badge_url::$BADGE_URL"
+
+    - name: Get README
+      id: get-readme
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const readme = await github.repos.getContent({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            path: 'README.md',
+          });
+          return readme.data;
+          
+    - name: Update README with Badge
+      id: update-readme
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const updatedReadme = `# My Repository ${github.context.payload.workflow_run.outputs.badge_url} Welcome to my repository!`;
+
+          await github.repos.createOrUpdateFile({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            path: 'README.md',
+            message: 'Update CPPCheck badge in README',
+            content: Buffer.from(updatedReadme).toString('base64'),
+            sha: context.payload.workflow_run.outputs.get-readme.sha,
+          });
