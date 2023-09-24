@@ -13,7 +13,7 @@ jobs:
           # Use curl to fetch Jenkins API data
           # Replace the URL with your actual Jenkins API URL
           JENKINS_API_URL="http://localhost:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json"
-          API_RESPONSE=$(curl -u ${{ secrets.JENKINS_CREDENTIALS }} -s "$JENKINS_API_URL")
+          API_RESPONSE=$(curl -u mawalsh:Effie21. -s "$JENKINS_API_URL")
 
           # Extract passCount, skipCount, failCount, and store them as environment variables
           PASS_COUNT=$(echo "$API_RESPONSE" | jq -r .passCount)
