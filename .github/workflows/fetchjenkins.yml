@@ -12,10 +12,10 @@ jobs:
         run: |
           # Use curl to fetch Jenkins API data
           # Replace the URL with your actual Jenkins API URL
-          echo "Jenkins Credentials: ${{ secrets.JENKINS_CREDENTIALS }}"
-          JENKINS_CREDENTIALS="${{ secrets.JENKINS_CREDENTIALS }}"
-          echo "curl -u '$JENKINS_CREDENTIALS' -s http://127.0.0.1:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json"
-          curl -u "$JENKINS_CREDENTIALS" -s http://127.0.0.1:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json || echo "Curl Error: $?"
+          
+          
+          response =$(curl http://127.0.0.1:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json -header "Accept= application/json" -header "X-Username= ${{ secrets.USER_NAME }}" -header "X-Password= ${{ secrets.PASSWORD }}")
+          echo "response from curl= $response" 
           # API_RESPONSE=$(curl -u ${{ secrets.JENKINS_CREDENTIALS }} -s http://127.0.0.1:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json)
 
           echo "$API_RESPONSE"
