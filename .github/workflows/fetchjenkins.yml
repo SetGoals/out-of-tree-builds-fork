@@ -14,7 +14,7 @@ jobs:
           # Replace the URL with your actual Jenkins API URL
           echo "Jenkins Credentials: ${{ secrets.JENKINS_CREDENTIALS }}"
           JENKINS_CREDENTIALS="${{ secrets.JENKINS_CREDENTIALS }}"
-          API_RESPONSE=$(curl -u mawalsh:Effie21. -s http://localhost:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json)
+          API_RESPONSE=$(curl -u ${{ secrets.JENKINS_CREDENTIALS }} -s http://localhost:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json)
 
           echo "$API_RESPONSE"
           # Extract passCount, skipCount, failCount, and store them as environment variables
