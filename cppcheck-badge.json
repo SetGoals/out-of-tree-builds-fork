@@ -1,5 +1,5 @@
 {
   "label": "CPPCheck",
-  "message":  "cppcheck-error-count",
+  "message":  123,
   "color": "blue"
 }
