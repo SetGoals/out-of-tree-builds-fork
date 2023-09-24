@@ -1,0 +1,25 @@
+name: Update Badge
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Jenkins API Data
+        id: fetch-api
+        run: |
+          # Use curl to fetch Jenkins API data
+          # Replace the URL with your actual Jenkins API URL
+          JENKINS_API_URL="http://localhost:8080/job/matt-wash-projects/job/main/lastSuccessfulBuild/testReport/api/json"
+          API_RESPONSE=$(curl -s "$JENKINS_API_URL")
+
+          # Extract passCount, skipCount, failCount, and store them as environment variables
+          PASS_COUNT=$(echo "$API_RESPONSE" | jq -r .passCount)
+          SKIP_COUNT=$(echo "$API_RESPONSE" | jq -r .skipCount)
+          FAIL_COUNT=$(echo "$API_RESPONSE" | jq -r .failCount)
+
+          echo "::set-env name=PASS_COUNT::$PASS_COUNT"
+          echo "::set-env name=SKIP_COUNT::$SKIP_COUNT"
+          echo "::set-env name=FAIL_COUNT::$FAIL_COUNT"
