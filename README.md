@@ -4,8 +4,6 @@
 
 [![Cppcheck Errors](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/SetGoals/out-of-tree-builds-fork/gh-pages/cppcheck-badge.json)][test-results]
 
-[![ASF Jira](https://img.shields.io/endpoint?url=https%3A%2F%2Fmaven.apache.org%2Fbadges%2Fasf_jira-MNG.json)][jira]
-
 here is the readme.  This is to make sure the workflow that updates the readme _ONLY_ editis the value of the CPPCheck badge and nothing else.
 
 [test-results]: https://shields.io
